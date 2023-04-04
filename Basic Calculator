@@ -1,0 +1,119 @@
+package cosc2425lab9sp23;
+
+public class Calculator {
+	
+	public double add(double a, double b) {
+		return a + b;
+	}  // Returns the addition
+	
+	public double subtract(double a, double b) {
+		return a - b;
+	}  // Returns the difference
+	
+	public double multiply(double a, double b) {
+		return a * b;
+	}  // Returns the quotient
+	
+	public double divide(double a, double b) {
+		return a / b;
+	}  // Returns the dividend
+	
+	public boolean boolCheck (double a, double b) {
+		if (a == b) { 
+			return true;
+		}
+		else {
+			return false;
+		}
+	}  // Returns the boolean of whether the variables are equal or not
+
+}
+
+
+package cosc2425lab9sp23Test;
+import java.util.Scanner;
+import cosc2425lab9sp23.Calculator; // Imported all of the necessary files
+
+public class CalcDriver extends Calculator{  // Extends the calculator class
+	
+    private Double num;
+    private Double num2;
+    private Scanner scanner;  // Private variables
+    
+    public CalcDriver() {
+        num = null;
+        num2 = null;
+        scanner = new Scanner(System.in);  // The driver which sets the inputs to null, helps restart the menu
+    }
+    
+    public double divide(double num, double num2) throws ArithmeticException {
+        if (num2 == 0) {
+            throw new ArithmeticException();
+        }
+        return num / num2;  // Throws the exception for when a number is divided by 0
+    }
+    
+    public void execution() {
+ 
+        while (true) {
+            try {
+            	
+                if (num == null) {
+                    System.out.print("Enter first number: ");
+                    num = Double.parseDouble(scanner.nextLine());
+                }
+                
+                if (num2 == null) {
+                    System.out.print("Enter second number: ");
+                    num2 = Double.parseDouble(scanner.nextLine());  // Asks for the two numbers if set to null
+                }
+                
+                System.out.println("\nMenu:\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Enter new numbers\n6. Exit\n");
+                int input = scanner.nextInt();  // Takes the input for the menu
+                
+                if (input < 1 || input > 6) {
+                    throw new IllegalArgumentException();
+                }  // Throws the exception if the input is not in the menu
+                
+                switch (input) {  // Cases for each menu option
+                    case 1:
+                        System.out.println(add(num, num2));
+                        break;  // Adds
+                    case 2:
+                        System.out.println(subtract(num, num2));
+                        break;  // Subtracts
+                    case 3:
+                        System.out.println(multiply(num, num2));
+                        break;  // Multiplies
+                    case 4:
+                        System.out.println(divide(num, num2));
+                        break;  // Divides
+                    case 5:
+                        num = null;
+                        num2 = null;
+                        break;  // Sets to null so that it can run again
+                    case 6:
+                        return;  // Exits code
+                }
+            } 
+            
+            catch (NumberFormatException exception) {
+                System.out.println("Invalid value. Please enter a number.\n");
+            }
+            
+            catch (ArithmeticException exception) {
+                System.out.println("Dividing by zero is an error.");
+            }
+            
+            catch (IllegalArgumentException exception) {
+                System.out.println("invalid menu option, pick between 1-6.");
+            }  // Catches all of the exeptions
+        }
+    }
+    
+    public static void main(String args[]) {
+    	CalcDriver calc = new CalcDriver();
+    	calc.execution();  // Runs the program
+    }
+}
+
